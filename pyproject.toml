@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "patho-attn"
+version = "0.1.0"
+description = "Gigapixel Whole Slide Digital Pathology Deep Attention Multiple Instance Learning (CLAM/ABMIL) & Cancer Subtyping"
+readme = "README.md"
+authors = [{ name = "ZengLLQ" }]
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+]
+
+[project.scripts]
+patho-attn = "patho_attn.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

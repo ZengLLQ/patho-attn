@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.11', '3.12']
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        pip install -e .
+
+    - name: Run Test Suite
+      run: |
+        pytest -v
+
+    - name: Run Breast Cancer Subtyping Example
+      run: |
+        python examples/breast_cancer_subtyping_wsi.py
+
+    - name: Run CLAM Lung Adenocarcinoma Example
+      run: |
+        python examples/clam_lung_carcinoma_clustering.py
